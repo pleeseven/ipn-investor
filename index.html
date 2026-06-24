@@ -528,16 +528,8 @@ function calcTax(txs, year) {
   };
 }
 
-function doCalc() {
-  const year = parseInt($('calc-year').value);
-  const txs = STATE.txs||[];
-  if (!txs.length) return toast('Добавьте сделки для расчёта', 1);
-
-  STATE.calc = calcTax(txs, year);
-  STATE.status = 'draft';
-  save();
-
-  const c = STATE.calc;
+function doCalc_render(c) {
+  const year = c.year;
 
   // Summary grid
   $('calc-grid').innerHTML = [
@@ -585,6 +577,16 @@ function doCalc() {
   updatePill();
 
   toast('Расчёт выполнен ✓');
+}
+
+function doCalc() {
+  const year = parseInt($('calc-year').value);
+  const txs = STATE.txs||[];
+  if (!txs.length) return toast('Добавьте сделки для расчёта', 1);
+  STATE.calc = calcTax(txs, year);
+  STATE.status = 'draft';
+  save();
+  doCalc_render(STATE.calc);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -710,7 +712,17 @@ function loadDemo() {
 }
 
 load();
-if (STATE.user) {
+
+const isDemo = new URLSearchParams(location.search).get('demo') === '1';
+if (isDemo) {
+  STATE.user = {iin: '123456789012', name: 'Демо Инвестор'};
+  loadDemo();
+  STATE.calc = calcTax(STATE.txs, 2024);
+  STATE.status = 'draft';
+  showApp();
+  doCalc_render(STATE.calc);
+  tab('calc');
+} else if (STATE.user) {
   if (!STATE.txs.length) loadDemo();
   showApp();
   if (STATE.calc) {
