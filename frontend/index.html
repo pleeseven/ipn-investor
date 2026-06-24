@@ -714,15 +714,17 @@ function loadDemo() {
 load();
 
 const isDemo = new URLSearchParams(location.search).get('demo') === '1';
-if (isDemo) {
-  STATE.user = {iin: '123456789012', name: 'Демо Инвестор'};
+
+if (isDemo || !STATE.user) {
+  // Автодемо: входим как демо-пользователь и сразу показываем расчёт
+  localStorage.clear();
+  STATE = { user: {iin: '123456789012', name: 'Демо Инвестор'}, txs: [], calc: null, status: 'draft' };
   loadDemo();
   STATE.calc = calcTax(STATE.txs, 2024);
-  STATE.status = 'draft';
   showApp();
   doCalc_render(STATE.calc);
   tab('calc');
-} else if (STATE.user) {
+} else {
   if (!STATE.txs.length) loadDemo();
   showApp();
   if (STATE.calc) {
@@ -736,8 +738,6 @@ if (isDemo) {
     $('decl-body').classList.remove('hidden');
     updatePill();
   }
-} else if (!STATE.txs.length) {
-  loadDemo();
 }
 </script>
 </body>
