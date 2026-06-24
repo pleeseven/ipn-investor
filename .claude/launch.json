@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ИПН Инвестор",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "uvicorn", "app.main:app", "--loop", "asyncio", "--http", "h11"],
+      "port": 8000,
+      "autoPort": true
+    }
+  ]
+}
