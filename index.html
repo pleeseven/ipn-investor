@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИПН Инвестор — Казахстан</title>
+<style>
+:root {
+  --blue:#2563eb;--blue-l:#eff6ff;--blue-b:#bfdbfe;
+  --green:#16a34a;--green-l:#f0fdf4;--green-b:#bbf7d0;
+  --red:#dc2626;--red-l:#fef2f2;
+  --orange:#ea580c;--orange-l:#fff7ed;--orange-b:#fed7aa;
+  --gray:#6b7280;--border:#e5e7eb;--bg:#f9fafb;
+  --white:#fff;--text:#111827;
+  --purple:#7c3aed;--purple-l:#ede9fe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:14px}
+
+/* Top bar */
+.topbar{background:var(--blue);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px}
+.topbar h1{font-size:1.05rem;font-weight:700}
+.badge{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:12px;font-size:.72rem}
+.badge.green{background:rgba(255,255,255,.3)}
+
+/* Layout */
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:18px}
+.card h2{font-size:.95rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+
+/* Tabs */
+.tabs{display:flex;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:18px}
+.tab{flex:1;padding:8px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-size:.82rem;font-weight:500;color:var(--gray);transition:all .15s}
+.tab.active{background:var(--white);color:var(--blue);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+
+/* Form */
+.row{display:grid;gap:10px;margin-bottom:10px}
+.row.c2{grid-template-columns:1fr 1fr}
+.row.c3{grid-template-columns:1fr 1fr 1fr}
+.row.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+@media(max-width:600px){.row.c2,.row.c3,.row.c4{grid-template-columns:1fr}}
+label{font-size:.75rem;color:var(--gray);font-weight:600;display:block;margin-bottom:3px}
+input,select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:.88rem;outline:none}
+input:focus,select:focus{border-color:var(--blue)}
+.chk{display:flex;align-items:center;gap:6px;font-size:.82rem;margin-top:6px}
+.chk input{width:auto}
+
+/* Buttons */
+.btn{padding:8px 16px;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.bp{background:var(--blue);color:#fff}
+.bs{background:var(--green);color:#fff}
+.bo{background:var(--white);border:1px solid var(--border);color:var(--text)}
+.bd{background:var(--red);color:#fff;padding:3px 8px;font-size:.75rem}
+.bk{background:#f14635;color:#fff;padding:11px 20px;font-size:.95rem;border-radius:10px;text-decoration:none;display:inline-flex;gap:6px;align-items:center;font-weight:700}
+.bsm{padding:5px 10px;font-size:.78rem}
+.mt{margin-top:10px}
+.fe{display:flex;justify-content:flex-end;gap:8px}
+
+/* Table */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{background:var(--bg);padding:7px 10px;text-align:left;font-weight:600;color:var(--gray);border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:7px 10px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+.tr{text-align:right}
+.tb{buy:color:var(--blue)}
+.type-buy{color:var(--blue);font-weight:700}
+.type-sell{color:var(--orange);font-weight:700}
+.type-dividend{color:var(--green);font-weight:700}
+.type-coupon{color:var(--purple);font-weight:700}
+.pos{color:var(--green)}
+.neg{color:var(--red)}
+.bold{font-weight:700}
+
+/* Tax summary */
+.tsummary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.titem{background:var(--blue-l);border:1px solid var(--blue-b);border-radius:10px;padding:12px}
+.titem.total{background:var(--orange-l);border-color:var(--orange-b)}
+.titem label{color:var(--gray);font-size:.7rem;margin-bottom:3px}
+.titem .amt{font-size:1.2rem;font-weight:700;color:var(--blue)}
+.titem.total .amt{color:var(--orange);font-size:1.4rem}
+.titem .sub{font-size:.7rem;color:var(--gray);margin-top:2px}
+
+/* Alert */
+.alert{padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:.82rem;display:flex;gap:7px}
+.ai{background:var(--blue-l);border:1px solid var(--blue-b);color:#1e40af}
+.aw{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+.aok{background:var(--green-l);border:1px solid var(--green-b);color:var(--green)}
+
+/* Steps */
+.steps{counter-reset:s}
+.step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.step:last-child{border-bottom:none}
+.step::before{counter-increment:s;content:counter(s);min-width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+/* Pill */
+.pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.72rem;font-weight:700}
+.p-draft{background:#f3f4f6;color:var(--gray)}
+.p-filed{background:var(--purple-l);color:var(--purple)}
+.p-paid{background:var(--green-l);color:var(--green)}
+
+/* Calendar */
+.cal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.cal-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:.8rem}
+.cal-item .cal-date{font-weight:700;color:var(--blue);margin-bottom:3px}
+.cal-item.urgent{border-color:#fca5a5;background:#fff5f5}
+.cal-item.urgent .cal-date{color:var(--red)}
+
+.hidden{display:none!important}
+#toast{position:fixed;bottom:20px;right:20px;background:#1f2937;color:#fff;padding:10px 16px;border-radius:9px;font-size:.82rem;opacity:0;transition:opacity .3s;z-index:999;max-width:280px}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span style="font-size:1.4rem">🇰🇿</span>
+  <h1>ИПН Инвестор</h1>
+  <span class="badge">MVP v1.0</span>
+  <span id="ubadge" class="badge green hidden"></span>
+</div>
+
+<div class="wrap">
+
+<!-- Registration -->
+<div id="s-reg" class="card">
+  <h2>👤 Регистрация / Вход</h2>
+  <div class="row c2">
+    <div><label>ИИН (12 цифр)</label><input id="r-iin" maxlength="12" placeholder="000000000000"></div>
+    <div><label>Полное имя</label><input id="r-name" placeholder="Иванов Иван Иванович"></div>
+  </div>
+  <button class="btn bp" onclick="doRegister()">Войти →</button>
+</div>
+
+<!-- Main app -->
+<div id="s-app" class="hidden">
+
+  <div class="tabs">
+    <button class="tab active" onclick="tab('trades')">📋 Сделки</button>
+    <button class="tab" onclick="tab('calc')">🧮 Расчёт ИПН</button>
+    <button class="tab" onclick="tab('decl')">📄 Декларация</button>
+    <button class="tab" onclick="tab('calendar')">📅 Календарь</button>
+  </div>
+
+  <!-- СДЕЛКИ -->
+  <div id="t-trades">
+    <div class="card">
+      <h2>➕ Добавить сделку</h2>
+      <div class="row c4">
+        <div>
+          <label>Тип</label>
+          <select id="tx-type" onchange="onType()">
+            <option value="buy">Покупка</option>
+            <option value="sell">Продажа</option>
+            <option value="dividend">Дивиденд</option>
+            <option value="coupon">Купон</option>
+          </select>
+        </div>
+        <div><label>Дата</label><input id="tx-date" type="date"></div>
+        <div><label>Тикер</label><input id="tx-ticker" placeholder="KCEL, AAPL…"></div>
+        <div>
+          <label>Валюта</label>
+          <select id="tx-cur">
+            <option value="KZT">KZT</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="RUB">RUB</option>
+          </select>
+        </div>
+      </div>
+      <div id="row-bs" class="row c4">
+        <div><label>Кол-во</label><input id="tx-qty" type="number" min="0" step="0.0001" placeholder="100"></div>
+        <div><label>Цена за 1 шт.</label><input id="tx-price" type="number" min="0" step="0.01" placeholder="1800"></div>
+        <div><label>Комиссия</label><input id="tx-comm" type="number" min="0" step="0.01" placeholder="0"></div>
+        <div><label>&nbsp;</label><div class="chk"><input id="tx-kase" type="checkbox"><label for="tx-kase">Листинг KASE</label></div></div>
+      </div>
+      <div id="row-dc" class="row c2 hidden">
+        <div><label>Сумма (дивиденд/купон)</label><input id="tx-amt" type="number" min="0" step="0.01" placeholder="5000"></div>
+        <div><label>&nbsp;</label><div class="chk"><input id="tx-kase2" type="checkbox"><label for="tx-kase2">KASE (льгота)</label></div></div>
+      </div>
+      <div class="row c2 mt">
+        <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--gray)">
+          <span>Курс НБ РК (USD→KZT):</span>
+          <input id="tx-rate" type="number" step="0.01" value="450" style="width:90px">
+          <span id="rate-hint" style="color:var(--blue);font-size:.72rem"></span>
+        </div>
+        <div class="fe"><button class="btn bp" onclick="addTx()">Добавить сделку</button></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📋 Список сделок <span id="tx-count" style="font-weight:400;color:var(--gray);font-size:.8rem"></span></h2>
+      <div id="tx-empty" class="alert ai"><span>ℹ️</span> Добавьте первую сделку выше.</div>
+      <div id="tx-wrap" class="tw hidden">
+        <table><thead><tr>
+          <th>Дата</th><th>Тип</th><th>Тикер</th>
+          <th class="tr">Кол-во</th><th class="tr">Цена</th><th class="tr">Комиссия</th>
+          <th>Валюта</th><th class="tr">Курс</th><th class="tr">В KZT</th><th>KASE</th><th></th>
+        </tr></thead><tbody id="tx-body"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- РАСЧЁТ -->
+  <div id="t-calc" class="hidden">
+    <div class="card">
+      <h2>🧮 Расчёт ИПН</h2>
+      <div class="row c2">
+        <div>
+          <label>Налоговый год</label>
+          <select id="calc-year">
+            <option value="2025">2025</option>
+            <option value="2024" selected>2024</option>
+            <option value="2023">2023</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:flex-end">
+          <button class="btn bp" style="width:100%" onclick="doCalc()">Рассчитать ИПН →</button>
+        </div>
+      </div>
+
+      <div id="calc-res" class="hidden">
+        <hr style="margin:14px 0;border:none;border-top:1px solid var(--border)">
+        <div class="tsummary" id="calc-grid"></div>
+        <div class="alert aw">⚠️ Расчёт является предварительным. Рекомендуем проверить с налоговым консультантом.</div>
+        <h3 style="font-size:.85rem;font-weight:700;margin-bottom:8px">Детализация по сделкам</h3>
+        <div class="tw">
+          <table><thead><tr>
+            <th>Дата продажи</th><th>Тикер</th><th class="tr">Кол-во</th>
+            <th class="tr">Выручка ₸</th><th class="tr">Себестоимость ₸</th>
+            <th class="tr">Доход ₸</th><th class="tr">Ставка</th><th class="tr">ИПН ₸</th><th>Примечание</th>
+          </tr></thead><tbody id="sales-body"></tbody></table>
+        </div>
+        <div class="fe mt"><button class="btn bo" onclick="tab('decl')">Перейти к декларации →</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ДЕКЛАРАЦИЯ -->
+  <div id="t-decl" class="hidden">
+    <div class="card">
+      <h2>📄 Декларация 240.00 и оплата</h2>
+      <div id="decl-nocalc" class="alert ai">ℹ️ Сначала выполните расчёт ИПН.</div>
+      <div id="decl-body" class="hidden">
+        <div class="alert aok">
+          ✅ <div>
+            <strong>Расчёт готов!</strong> К уплате: <strong id="decl-total"></strong> ₸ за <span id="decl-year"></span> год.<br>
+            Подача декларации: до <strong>31 марта</strong> · Уплата ИПН: до <strong>10 апреля</strong>
+          </div>
+        </div>
+
+        <h3 style="font-size:.85rem;font-weight:700;margin:14px 0 8px">Шаг 1 — Скачайте XML декларации</h3>
+        <button class="btn bo" onclick="downloadXml()">⬇️ Скачать 240.00.xml</button>
+
+        <h3 style="font-size:.85rem;font-weight:700;margin:14px 0 8px">Шаг 2 — Подайте на eGov</h3>
+        <div class="steps">
+          <div class="step">Перейдите на cabinet.egov.kz → войдите через ЭЦП или ИИН + пароль</div>
+          <div class="step">Раздел «Налоговая отчётность» → «Создать» → форма 240.00</div>
+          <div class="step">Загрузите скачанный XML-файл, проверьте данные</div>
+          <div class="step">Подпишите ЭЦП и отправьте</div>
+          <div class="step">Вернитесь и отметьте статус ниже ✓</div>
+        </div>
+        <div class="mt"><button class="btn bo bsm" onclick="setStatus('filed')">✓ Декларация подана</button></div>
+
+        <h3 style="font-size:.85rem;font-weight:700;margin:14px 0 8px">Шаг 3 — Оплатите через Kaspi</h3>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <a id="kaspi-web" href="#" class="bk" target="_blank">💳 Оплатить через Kaspi — <span id="kaspi-amt"></span> ₸</a>
+          <button class="btn bo bsm" onclick="setStatus('paid')">✓ Я оплатил</button>
+        </div>
+
+        <div class="mt" style="font-size:.82rem">
+          Статус: <span id="status-pill" class="pill p-draft">черновик</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- КАЛЕНДАРЬ -->
+  <div id="t-calendar" class="hidden">
+    <div class="card">
+      <h2>📅 Налоговый календарь 2025</h2>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+    <div class="card">
+      <h2>📊 Ставки ИПН (НК РК)</h2>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Инструмент</th><th>Ставка</th><th>Основание</th></tr></thead>
+          <tbody>
+            <tr><td>Прирост акций (иностранные / KASE &lt; 3 лет)</td><td class="bold">10%</td><td>ст. 320 НК РК</td></tr>
+            <tr><td>Акции KASE при владении ≥ 3 лет</td><td class="bold pos">0%</td><td>ст. 331 НК РК</td></tr>
+            <tr><td>Дивиденды от компаний РК</td><td class="bold">5%</td><td>ст. 320 НК РК</td></tr>
+            <tr><td>Дивиденды от иностранных компаний</td><td class="bold">10%</td><td>ст. 320 НК РК</td></tr>
+            <tr><td>Купоны по облигациям (общий случай)</td><td class="bold">10%</td><td>ст. 320 НК РК</td></tr>
+            <tr><td>Купоны по облигациям из списка KASE (ИИС)</td><td class="bold pos">0%</td><td>ст. 331 НК РК</td></tr>
+            <tr><td>Доход от криптовалюты</td><td class="bold">10%</td><td>ст. 337 НК РК</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /s-app -->
+</div><!-- /wrap -->
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════════════════════
+let STATE = {
+  user: null,       // {iin, name}
+  txs: [],          // array of transaction objects
+  calc: null,       // last calculation result
+  status: 'draft',  // filed | paid
+};
+
+function save() { localStorage.setItem('ipn_state', JSON.stringify(STATE)); }
+function load() {
+  try { const s = localStorage.getItem('ipn_state'); if (s) STATE = JSON.parse(s); } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// Auth
+// ═══════════════════════════════════════════════════════════════════
+function doRegister() {
+  const iin  = $('r-iin').value.trim();
+  const name = $('r-name').value.trim();
+  if (!/^\d{12}$/.test(iin)) return toast('ИИН должен содержать ровно 12 цифр', 1);
+  if (!name) return toast('Введите имя', 1);
+  STATE.user = { iin, name };
+  save();
+  showApp();
+}
+
+function showApp() {
+  const u = STATE.user;
+  if (!u) return;
+  $('ubadge').textContent = `${u.name} · ${u.iin}`;
+  $('ubadge').classList.remove('hidden');
+  $('s-reg').classList.add('hidden');
+  $('s-app').classList.remove('hidden');
+  renderTxList();
+  renderCalendar();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// Tabs
+// ═══════════════════════════════════════════════════════════════════
+function tab(name) {
+  ['trades','calc','decl','calendar'].forEach(t => {
+    $('t-'+t).classList.toggle('hidden', t!==name);
+  });
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', ['trades','calc','decl','calendar'][i]===name);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// Transactions
+// ═══════════════════════════════════════════════════════════════════
+function onType() {
+  const t = $('tx-type').value;
+  const dc = t==='dividend'||t==='coupon';
+  $('row-bs').classList.toggle('hidden', dc);
+  $('row-dc').classList.toggle('hidden', !dc);
+  $('rate-hint').textContent = '';
+}
+
+function addTx() {
+  const type   = $('tx-type').value;
+  const dc     = type==='dividend'||type==='coupon';
+  const kEl    = dc ? 'tx-kase2' : 'tx-kase';
+  const date   = $('tx-date').value;
+  const ticker = $('tx-ticker').value.trim().toUpperCase();
+  const cur    = $('tx-cur').value;
+  const rate   = parseFloat($('tx-rate').value) || 1;
+
+  if (!date)   return toast('Укажите дату', 1);
+  if (!ticker) return toast('Укажите тикер', 1);
+
+  const tx = {
+    id: Date.now()+'_'+Math.random().toString(36).slice(2),
+    date, type, ticker, currency: cur, nbk_rate: rate,
+    is_kase_listed: $(kEl).checked,
+  };
+
+  if (dc) {
+    const amt = parseFloat($('tx-amt').value)||0;
+    if (!amt) return toast('Укажите сумму', 1);
+    tx.amount = amt;
+    tx.amount_kzt = amt * rate;
+    tx.qty = 0; tx.price = 0; tx.commission = 0;
+    tx.price_kzt = 0; tx.commission_kzt = 0;
+  } else {
+    const qty   = parseFloat($('tx-qty').value)||0;
+    const price = parseFloat($('tx-price').value)||0;
+    const comm  = parseFloat($('tx-comm').value)||0;
+    if (!qty||!price) return toast('Укажите количество и цену', 1);
+    tx.qty = qty; tx.price = price; tx.commission = comm;
+    tx.price_kzt = price * rate;
+    tx.commission_kzt = comm * rate;
+    tx.amount = 0; tx.amount_kzt = 0;
+  }
+
+  STATE.txs.push(tx);
+  save();
+  renderTxList();
+  toast('Сделка добавлена ✓');
+}
+
+function deleteTx(id) {
+  if (!confirm('Удалить сделку?')) return;
+  STATE.txs = STATE.txs.filter(t => t.id !== id);
+  save();
+  renderTxList();
+}
+
+function renderTxList() {
+  const txs = STATE.txs || [];
+  $('tx-count').textContent = txs.length ? `(${txs.length})` : '';
+  if (!txs.length) {
+    $('tx-empty').classList.remove('hidden');
+    $('tx-wrap').classList.add('hidden');
+    return;
+  }
+  $('tx-empty').classList.add('hidden');
+  $('tx-wrap').classList.remove('hidden');
+
+  const labels = {buy:'Покупка',sell:'Продажа',dividend:'Дивиденд',coupon:'Купон'};
+  $('tx-body').innerHTML = [...txs].sort((a,b)=>a.date<b.date?-1:1).map(t => {
+    const dc = t.type==='dividend'||t.type==='coupon';
+    return `<tr>
+      <td>${t.date}</td>
+      <td><span class="type-${t.type}">${labels[t.type]||t.type}</span></td>
+      <td><strong>${t.ticker}</strong></td>
+      <td class="tr">${dc?'—':n(t.qty)}</td>
+      <td class="tr">${dc?n(t.amount):n(t.price)}</td>
+      <td class="tr">${n(t.commission)}</td>
+      <td>${t.currency}</td>
+      <td class="tr">${n(t.nbk_rate,2)}</td>
+      <td class="tr">${dc?n(t.amount_kzt):n(t.price_kzt)}</td>
+      <td>${t.is_kase_listed?'✅':'—'}</td>
+      <td><button class="btn bd" onclick="deleteTx('${t.id}')">✕</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// FIFO Tax Engine (JavaScript)
+// ═══════════════════════════════════════════════════════════════════
+const RATES = { stocks:0.10, div_kz:0.05, div_foreign:0.10, coupon:0.10 };
+const KASE_HOLD_DAYS = 1095; // 3 года
+
+function calcTax(txs, year) {
+  const yt = txs.filter(t => t.date.startsWith(String(year)));
+
+  // ── Акции: FIFO ────────────────────────────────────────────────
+  const lots = {};   // ticker → [{date,qty,price_kzt,commission_kzt}]
+  const sales = [];
+
+  [...yt].sort((a,b)=>a.date<b.date?-1:1).forEach(t => {
+    if (t.type==='buy') {
+      if (!lots[t.ticker]) lots[t.ticker]=[];
+      lots[t.ticker].push({date:t.date, qty:t.qty, price_kzt:t.price_kzt, commission_kzt:t.commission_kzt});
+    }
+    else if (t.type==='sell') {
+      const revenue = t.qty * t.price_kzt - t.commission_kzt;
+      let remaining = t.qty, cost = 0, earliestDate = null;
+      const queue = lots[t.ticker] || [];
+
+      while (remaining > 0 && queue.length) {
+        const lot = queue[0];
+        if (!earliestDate) earliestDate = lot.date;
+        const used = Math.min(lot.qty, remaining);
+        const prop = used / lot.qty;
+        cost += used * lot.price_kzt + lot.commission_kzt * prop;
+        lot.qty -= used;
+        lot.commission_kzt -= lot.commission_kzt * prop;
+        if (lot.qty < 1e-9) queue.shift();
+        remaining -= used;
+      }
+
+      const income = revenue - cost;
+      let rate = RATES.stocks, note = '';
+      if (t.is_kase_listed && earliestDate) {
+        const d1 = new Date(earliestDate), d2 = new Date(t.date);
+        const days = (d2 - d1) / 86400000;
+        if (days >= KASE_HOLD_DAYS) { rate = 0; note = 'KASE ≥ 3 лет (ст. 331)'; }
+      }
+      const tax = Math.max(0, income) * rate;
+      sales.push({ticker:t.ticker, date:t.date, qty:t.qty, revenue, cost, income, rate, tax, note});
+    }
+  });
+
+  // Зачёт убытков
+  const totalStockIncome = sales.reduce((s,d)=>s+d.income,0);
+  const stocksBase = Math.max(0, totalStockIncome);
+  const allExempt = sales.every(s=>s.rate===0);
+  const stocksTax = allExempt ? 0 : stocksBase * RATES.stocks;
+
+  // ── Дивиденды ─────────────────────────────────────────────────
+  const divs = yt.filter(t=>t.type==='dividend');
+  const divKZ  = divs.filter(t=>t.is_kase_listed ).reduce((s,t)=>s+t.amount_kzt,0);
+  const divFor = divs.filter(t=>!t.is_kase_listed).reduce((s,t)=>s+t.amount_kzt,0);
+  const divKZTax  = divKZ  * RATES.div_kz;
+  const divForTax = divFor * RATES.div_foreign;
+
+  // ── Купоны ────────────────────────────────────────────────────
+  const coupons = yt.filter(t=>t.type==='coupon');
+  const couponTaxable = coupons.filter(t=>!t.is_kase_listed).reduce((s,t)=>s+t.amount_kzt,0);
+  const couponExempt  = coupons.filter(t=> t.is_kase_listed).reduce((s,t)=>s+t.amount_kzt,0);
+  const couponTax = couponTaxable * RATES.coupon;
+
+  return {
+    year,
+    stocksIncome: r(totalStockIncome),
+    stocksTax: r(stocksTax),
+    divKZ: r(divKZ), divKZTax: r(divKZTax),
+    divFor: r(divFor), divForTax: r(divForTax),
+    couponTaxable: r(couponTaxable), couponExempt: r(couponExempt), couponTax: r(couponTax),
+    totalTax: r(stocksTax + divKZTax + divForTax + couponTax),
+    sales,
+  };
+}
+
+function doCalc() {
+  const year = parseInt($('calc-year').value);
+  const txs = STATE.txs||[];
+  if (!txs.length) return toast('Добавьте сделки для расчёта', 1);
+
+  STATE.calc = calcTax(txs, year);
+  STATE.status = 'draft';
+  save();
+
+  const c = STATE.calc;
+
+  // Summary grid
+  $('calc-grid').innerHTML = [
+    ['Доход по акциям', n(c.stocksIncome,0)+' ₸', `ИПН: ${n(c.stocksTax,0)} ₸`, ''],
+    ['Дивиденды (RK 5%)', n(c.divKZ,0)+' ₸', `ИПН: ${n(c.divKZTax,0)} ₸`, ''],
+    ['Дивиденды (иностр. 10%)', n(c.divFor,0)+' ₸', `ИПН: ${n(c.divForTax,0)} ₸', ''],
+    ['Купоны (облагаемые)', n(c.couponTaxable,0)+' ₸', `ИПН: ${n(c.couponTax,0)} ₸`, ''],
+  ].map(([lbl,amt,sub]) => `
+    <div class="titem">
+      <label>${lbl}</label>
+      <div class="amt">${amt}</div>
+      <div class="sub">${sub}</div>
+    </div>`).join('')
+  + `<div class="titem total">
+      <label>ИТОГО ИПН к уплате</label>
+      <div class="amt">${n(c.totalTax,0)} ₸</div>
+    </div>`;
+
+  // Sales detail
+  if (c.sales.length) {
+    $('sales-body').innerHTML = c.sales.map(s => `<tr>
+      <td>${s.date}</td><td><strong>${s.ticker}</strong></td>
+      <td class="tr">${n(s.qty)}</td>
+      <td class="tr">${n(s.revenue,0)}</td>
+      <td class="tr">${n(s.cost,0)}</td>
+      <td class="tr ${s.income>=0?'pos':'neg'}">${n(s.income,0)}</td>
+      <td class="tr">${(s.rate*100).toFixed(0)}%</td>
+      <td class="tr bold">${n(s.tax,0)}</td>
+      <td style="color:var(--green);font-size:.75rem">${s.note||''}</td>
+    </tr>`).join('');
+  } else {
+    $('sales-body').innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--gray)">Нет операций продажи</td></tr>';
+  }
+
+  $('calc-res').classList.remove('hidden');
+
+  // Prepare declaration tab
+  $('decl-total').textContent = n(c.totalTax,0);
+  $('decl-year').textContent  = year;
+  $('kaspi-amt').textContent  = n(c.totalTax,0);
+  const u = STATE.user;
+  $('kaspi-web').href = `https://kaspi.kz/pay/tax?kbk=101201&iin=${u.iin}&amount=${Math.round(c.totalTax)}`;
+  $('decl-nocalc').classList.add('hidden');
+  $('decl-body').classList.remove('hidden');
+  updatePill();
+
+  toast('Расчёт выполнен ✓');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// XML Generator
+// ═══════════════════════════════════════════════════════════════════
+function generateXml() {
+  const c = STATE.calc;
+  const u = STATE.user;
+  if (!c||!u) return '';
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<Form240 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <Header>
+    <FormCode>240.00</FormCode>
+    <TaxPeriod>${c.year}</TaxPeriod>
+    <IIN>${u.iin}</IIN>
+    <FullName>${esc(u.name)}</FullName>
+    <GeneratedAt>${new Date().toISOString().slice(0,10)}</GeneratedAt>
+  </Header>
+  <SectionA>
+    <A001_StocksIncome>${f2(c.stocksIncome)}</A001_StocksIncome>
+    <A002_DivForeign>${f2(c.divFor)}</A002_DivForeign>
+    <A003_TotalForeign>${f2(c.stocksIncome+c.divFor)}</A003_TotalForeign>
+  </SectionA>
+  <SectionB>
+    <B001_DivKZ>${f2(c.divKZ)}</B001_DivKZ>
+    <B002_Coupons>${f2(c.couponTaxable)}</B002_Coupons>
+  </SectionB>
+  <SectionC>
+    <C001_StocksTax>${f2(c.stocksTax)}</C001_StocksTax>
+    <C002_DivKZTax>${f2(c.divKZTax)}</C002_DivKZTax>
+    <C003_DivForeignTax>${f2(c.divForTax)}</C003_DivForeignTax>
+    <C004_CouponsTax>${f2(c.couponTax)}</C004_CouponsTax>
+    <C005_TotalTax>${f2(c.totalTax)}</C005_TotalTax>
+  </SectionC>
+  <Payment>
+    <KBK>101201</KBK>
+    <Amount>${f2(c.totalTax)}</Amount>
+    <Period>${c.year}</Period>
+  </Payment>
+</Form240>`;
+}
+
+function downloadXml() {
+  const xml = generateXml();
+  if (!xml) return toast('Нет данных для скачивания', 1);
+  const blob = new Blob([xml], {type:'application/xml;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = `240_00_${STATE.calc.year}.xml`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function setStatus(s) {
+  STATE.status = s;
+  save(); updatePill();
+  toast(s==='paid'?'🎉 Налог уплачен!':'Статус обновлён ✓');
+}
+
+function updatePill() {
+  const s = STATE.status;
+  const labels = {draft:'черновик',filed:'декларация подана',paid:'оплачено ✓'};
+  const cls    = {draft:'p-draft',filed:'p-filed',paid:'p-paid'};
+  $('status-pill').textContent = labels[s]||s;
+  $('status-pill').className = `pill ${cls[s]||'p-draft'}`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// Calendar
+// ═══════════════════════════════════════════════════════════════════
+function renderCalendar() {
+  const today = new Date();
+  const items = [
+    {date:'31 декабря 2024', text:'Конец налогового года', urgent:false},
+    {date:'15 апреля 2025', text:'Квартальный отчёт за Q1', urgent:false},
+    {date:'1 февраля 2025', text:'До дедлайна декларации — 28 дней', urgent:false},
+    {date:'15 марта 2025', text:'До дедлайна декларации — 16 дней', urgent:false},
+    {date:'31 марта 2025', text:'⚡ Последний день подачи декларации 240.00', urgent:true},
+    {date:'5 апреля 2025', text:'До оплаты ИПН — 5 дней', urgent:false},
+    {date:'10 апреля 2025', text:'⚡ Последний день уплаты ИПН', urgent:true},
+    {date:'15 июля 2025', text:'Квартальный отчёт за Q2', urgent:false},
+    {date:'15 октября 2025', text:'Квартальный отчёт за Q3', urgent:false},
+    {date:'20 декабря 2025', text:'Загрузите годовой отчёт брокера', urgent:false},
+  ];
+  $('cal-grid').innerHTML = items.map(i=>`
+    <div class="cal-item ${i.urgent?'urgent':''}">
+      <div class="cal-date">${i.date}</div>
+      <div>${i.text}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// Helpers
+// ═══════════════════════════════════════════════════════════════════
+function $(id){ return document.getElementById(id); }
+function r(v){ return Math.round(v*100)/100; }
+function f2(v){ return v.toFixed(2); }
+function n(v,d=2){ return (v==null)?'—':Number(v).toLocaleString('ru-RU',{maximumFractionDigits:d}); }
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let toastT;
+function toast(msg, err=0){
+  const el = $('toast');
+  el.textContent = (err?'❌ ':'✅ ')+msg;
+  el.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>el.classList.remove('show'), 2800);
+}
+
+// ── Init ──────────────────────────────────────────────────────────
+$('tx-date').valueAsDate = new Date();
+$('tx-rate').value = '450';
+
+// Загрузка демо-данных при первом запуске для наглядности
+function loadDemo() {
+  STATE.txs = [
+    {id:'demo1',date:'2024-03-01',type:'buy',ticker:'KCEL',qty:100,price:1800,commission:540,currency:'KZT',nbk_rate:1,price_kzt:1800,commission_kzt:540,is_kase_listed:true,amount:0,amount_kzt:0},
+    {id:'demo2',date:'2024-09-15',type:'sell',ticker:'KCEL',qty:100,price:2200,commission:660,currency:'KZT',nbk_rate:1,price_kzt:2200,commission_kzt:660,is_kase_listed:true,amount:0,amount_kzt:0},
+    {id:'demo3',date:'2024-02-20',type:'buy',ticker:'HSBK',qty:150,price:72,commission:324,currency:'KZT',nbk_rate:1,price_kzt:72,commission_kzt:324,is_kase_listed:false,amount:0,amount_kzt:0},
+    {id:'demo4',date:'2024-06-10',type:'buy',ticker:'HSBK',qty:100,price:85,commission:255,currency:'KZT',nbk_rate:1,price_kzt:85,commission_kzt:255,is_kase_listed:false,amount:0,amount_kzt:0},
+    {id:'demo5',date:'2024-11-05',type:'sell',ticker:'HSBK',qty:200,price:95,commission:570,currency:'KZT',nbk_rate:1,price_kzt:95,commission_kzt:570,is_kase_listed:false,amount:0,amount_kzt:0},
+    {id:'demo6',date:'2024-06-01',type:'dividend',ticker:'AAPL',qty:0,price:0,commission:0,currency:'USD',nbk_rate:450,price_kzt:0,commission_kzt:0,is_kase_listed:false,amount:150,amount_kzt:67500},
+  ];
+}
+
+load();
+if (STATE.user) {
+  if (!STATE.txs.length) loadDemo();
+  showApp();
+  if (STATE.calc) {
+    const c = STATE.calc;
+    $('decl-total').textContent = n(c.totalTax,0);
+    $('decl-year').textContent  = c.year;
+    $('kaspi-amt').textContent  = n(c.totalTax,0);
+    const u = STATE.user;
+    $('kaspi-web').href = `https://kaspi.kz/pay/tax?kbk=101201&iin=${u.iin}&amount=${Math.round(c.totalTax)}`;
+    $('decl-nocalc').classList.add('hidden');
+    $('decl-body').classList.remove('hidden');
+    updatePill();
+  }
+} else if (!STATE.txs.length) {
+  loadDemo();
+}
+</script>
+</body>
+</html>
