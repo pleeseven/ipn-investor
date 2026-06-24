@@ -6,19 +6,19 @@
 <title>ИПН Инвестор — Казахстан</title>
 <style>
 :root {
-  --blue:#2563eb;--blue-l:#eff6ff;--blue-b:#bfdbfe;
-  --green:#16a34a;--green-l:#f0fdf4;--green-b:#bbf7d0;
+  --blue:#00853F;--blue-l:#E8F7EF;--blue-b:#A8DBBE;
+  --green:#00853F;--green-l:#E8F7EF;--green-b:#A8DBBE;
   --red:#dc2626;--red-l:#fef2f2;
-  --orange:#ea580c;--orange-l:#fff7ed;--orange-b:#fed7aa;
-  --gray:#6b7280;--border:#e5e7eb;--bg:#f9fafb;
+  --orange:#D4A017;--orange-l:#FDF8E7;--orange-b:#F0D070;
+  --gray:#6b7280;--border:#e5e7eb;--bg:#F4FAF7;
   --white:#fff;--text:#111827;
-  --purple:#7c3aed;--purple-l:#ede9fe;
+  --purple:#007A38;--purple-l:#D4EDDE;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:14px}
 
 /* Top bar */
-.topbar{background:var(--blue);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px}
+.topbar{background:#00853F;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:3px solid #FFD700}
 .topbar h1{font-size:1.05rem;font-weight:700}
 .badge{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:12px;font-size:.72rem}
 .badge.green{background:rgba(255,255,255,.3)}
@@ -33,7 +33,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 /* Tabs */
 .tabs{display:flex;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:18px}
 .tab{flex:1;padding:8px 4px;border:none;background:none;border-radius:7px;cursor:pointer;font-size:.82rem;font-weight:500;color:var(--gray);transition:all .15s}
-.tab.active{background:var(--white);color:var(--blue);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.tab.active{background:var(--white);color:#00853F;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)}
 
 /* Form */
 .row{display:grid;gap:10px;margin-bottom:10px}
@@ -43,14 +43,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 @media(max-width:600px){.row.c2,.row.c3,.row.c4{grid-template-columns:1fr}}
 label{font-size:.75rem;color:var(--gray);font-weight:600;display:block;margin-bottom:3px}
 input,select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:.88rem;outline:none}
-input:focus,select:focus{border-color:var(--blue)}
+input:focus,select:focus{border-color:#00853F}
 .chk{display:flex;align-items:center;gap:6px;font-size:.82rem;margin-top:6px}
 .chk input{width:auto}
 
 /* Buttons */
 .btn{padding:8px 16px;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .15s}
 .btn:hover{opacity:.85}
-.bp{background:var(--blue);color:#fff}
+.bp{background:#00853F;color:#fff}
 .bs{background:var(--green);color:#fff}
 .bo{background:var(--white);border:1px solid var(--border);color:var(--text)}
 .bd{background:var(--red);color:#fff;padding:3px 8px;font-size:.75rem}
@@ -78,10 +78,10 @@ tr:last-child td{border-bottom:none}
 /* Tax summary */
 .tsummary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
 .titem{background:var(--blue-l);border:1px solid var(--blue-b);border-radius:10px;padding:12px}
-.titem.total{background:var(--orange-l);border-color:var(--orange-b)}
+.titem.total{background:#FDF8E7;border-color:#F0D070}
 .titem label{color:var(--gray);font-size:.7rem;margin-bottom:3px}
-.titem .amt{font-size:1.2rem;font-weight:700;color:var(--blue)}
-.titem.total .amt{color:var(--orange);font-size:1.4rem}
+.titem .amt{font-size:1.2rem;font-weight:700;color:#00853F}
+.titem.total .amt{color:#B8860B;font-size:1.4rem}
 .titem .sub{font-size:.7rem;color:var(--gray);margin-top:2px}
 
 /* Alert */
@@ -94,7 +94,7 @@ tr:last-child td{border-bottom:none}
 .steps{counter-reset:s}
 .step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem}
 .step:last-child{border-bottom:none}
-.step::before{counter-increment:s;content:counter(s);min-width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step::before{counter-increment:s;content:counter(s);min-width:22px;height:22px;border-radius:50%;background:#00853F;color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 
 /* Pill */
 .pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.72rem;font-weight:700}
@@ -105,7 +105,7 @@ tr:last-child td{border-bottom:none}
 /* Calendar */
 .cal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
 .cal-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:.8rem}
-.cal-item .cal-date{font-weight:700;color:var(--blue);margin-bottom:3px}
+.cal-item .cal-date{font-weight:700;color:#00853F;margin-bottom:3px}
 .cal-item.urgent{border-color:#fca5a5;background:#fff5f5}
 .cal-item.urgent .cal-date{color:var(--red)}
 
