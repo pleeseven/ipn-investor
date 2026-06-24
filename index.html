@@ -535,7 +535,7 @@ function doCalc_render(c) {
   $('calc-grid').innerHTML = [
     ['Доход по акциям', n(c.stocksIncome,0)+' ₸', `ИПН: ${n(c.stocksTax,0)} ₸`, ''],
     ['Дивиденды (RK 5%)', n(c.divKZ,0)+' ₸', `ИПН: ${n(c.divKZTax,0)} ₸`, ''],
-    ['Дивиденды (иностр. 10%)', n(c.divFor,0)+' ₸', `ИПН: ${n(c.divForTax,0)} ₸', ''],
+    ['Дивиденды (иностр. 10%)', n(c.divFor,0)+' ₸', `ИПН: ${n(c.divForTax,0)} ₸`, ''],
     ['Купоны (облагаемые)', n(c.couponTaxable,0)+' ₸', `ИПН: ${n(c.couponTax,0)} ₸`, ''],
   ].map(([lbl,amt,sub]) => `
     <div class="titem">
