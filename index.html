@@ -54,7 +54,7 @@ input:focus,select:focus{border-color:#00853F}
 .bs{background:var(--green);color:#fff}
 .bo{background:var(--white);border:1px solid var(--border);color:var(--text)}
 .bd{background:var(--red);color:#fff;padding:3px 8px;font-size:.75rem}
-.bk{background:#f14635;color:#fff;padding:11px 20px;font-size:.95rem;border-radius:10px;text-decoration:none;display:inline-flex;gap:6px;align-items:center;font-weight:700}
+.bk{background:#00853F;color:#fff;padding:11px 20px;font-size:.95rem;border-radius:10px;text-decoration:none;display:inline-flex;gap:6px;align-items:center;font-weight:700;border:2px solid #FFD700}
 .bsm{padding:5px 10px;font-size:.78rem}
 .mt{margin-top:10px}
 .fe{display:flex;justify-content:flex-end;gap:8px}
@@ -265,9 +265,9 @@ tr:last-child td{border-bottom:none}
         </div>
         <div class="mt"><button class="btn bo bsm" onclick="setStatus('filed')">✓ Декларация подана</button></div>
 
-        <h3 style="font-size:.85rem;font-weight:700;margin:14px 0 8px">Шаг 3 — Оплатите через Kaspi</h3>
+        <h3 style="font-size:.85rem;font-weight:700;margin:14px 0 8px">Шаг 3 — Оплатите через Халык Банк</h3>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <a id="kaspi-web" href="#" class="bk" target="_blank">💳 Оплатить через Kaspi — <span id="kaspi-amt"></span> ₸</a>
+          <a id="kaspi-web" href="#" class="bk" target="_blank">🏦 Оплатить через Homebank — <span id="kaspi-amt"></span> ₸</a>
           <button class="btn bo bsm" onclick="setStatus('paid')">✓ Я оплатил</button>
         </div>
 
@@ -571,7 +571,7 @@ function doCalc_render(c) {
   $('decl-year').textContent  = year;
   $('kaspi-amt').textContent  = n(c.totalTax,0);
   const u = STATE.user;
-  $('kaspi-web').href = `https://kaspi.kz/pay/tax?kbk=101201&iin=${u.iin}&amount=${Math.round(c.totalTax)}`;
+  $('kaspi-web').href = `https://homebank.kz/ru/pay/category/taxes?kbk=101201&iin=${u.iin}&sum=${Math.round(c.totalTax)}`;
   $('decl-nocalc').classList.add('hidden');
   $('decl-body').classList.remove('hidden');
   updatePill();
@@ -733,7 +733,7 @@ if (isDemo || !STATE.user) {
     $('decl-year').textContent  = c.year;
     $('kaspi-amt').textContent  = n(c.totalTax,0);
     const u = STATE.user;
-    $('kaspi-web').href = `https://kaspi.kz/pay/tax?kbk=101201&iin=${u.iin}&amount=${Math.round(c.totalTax)}`;
+    $('kaspi-web').href = `https://homebank.kz/ru/pay/category/taxes?kbk=101201&iin=${u.iin}&sum=${Math.round(c.totalTax)}`;
     $('decl-nocalc').classList.add('hidden');
     $('decl-body').classList.remove('hidden');
     updatePill();
